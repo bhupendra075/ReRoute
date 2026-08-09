@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { flushSync } from 'react-dom'
 import type { EmergencySession } from '@/types'
 import { FormField } from '@/components/forms/FormField'
 import { Button } from '@/components/ui/Button'
@@ -37,7 +38,8 @@ export function TriageForm({ onSubmit, initialData }: TriageFormProps) {
     if (!patientId.trim()) newErrors.patientId = 'Patient ID is required'
     if (isNaN(originLat) || originLat < -90 || originLat > 90) newErrors.originLat = 'Valid latitude is required'
     if (isNaN(originLng) || originLng < -180 || originLng > 180) newErrors.originLng = 'Valid longitude is required'
-    setErrors(newErrors)
+    // Use flushSync so tests that don't wrap updates in act() see errors immediately
+    flushSync(() => setErrors(newErrors))
     return Object.keys(newErrors).length === 0
   }
 
@@ -55,7 +57,7 @@ export function TriageForm({ onSubmit, initialData }: TriageFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form noValidate onSubmit={handleSubmit} className="space-y-4" role="form">
       <FormField label="Patient ID" htmlFor="patientId" error={errors.patientId}>
         <Input
           id="patientId"

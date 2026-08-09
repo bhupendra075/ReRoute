@@ -5,6 +5,9 @@ export default {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^react-leaflet$': '<rootDir>/src/tests/mocks/react-leaflet.tsx',
+    '^leaflet$': '<rootDir>/src/tests/mocks/leaflet.ts',
+    '^qrcode.react$': '<rootDir>/src/tests/mocks/qrcode-react.tsx',
   },
   coverageThreshold: {
     global: { branches: 80, functions: 80, lines: 80, statements: 80 },

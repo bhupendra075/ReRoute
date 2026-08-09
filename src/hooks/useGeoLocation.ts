@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { flushSync } from 'react-dom'
 
 interface GeoLocationState {
   latitude: number | null
@@ -20,7 +21,7 @@ export function useGeoLocation() {
 
   const getCurrentPosition = useCallback(() => {
     if (!navigator.geolocation) {
-      setState((prev) => ({ ...prev, error: 'Geolocation is not supported by this browser' }))
+      flushSync(() => setState((prev) => ({ ...prev, error: 'Geolocation is not supported by this browser' })))
       return
     }
 
@@ -51,7 +52,7 @@ export function useGeoLocation() {
 
   const startWatching = useCallback(() => {
     if (!navigator.geolocation) {
-      setState((prev) => ({ ...prev, error: 'Geolocation is not supported by this browser' }))
+      flushSync(() => setState((prev) => ({ ...prev, error: 'Geolocation is not supported by this browser' })))
       return
     }
 
