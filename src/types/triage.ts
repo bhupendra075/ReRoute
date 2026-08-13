@@ -1,3 +1,9 @@
+export interface TriageSession {
+  id: string
+  patientId: string
+  status: 'pending' | 'active' | 'completed' | 'cancelled'
+}
+
 export interface EmergencySession {
   id?: string
   patientId: string

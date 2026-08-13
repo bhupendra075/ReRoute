@@ -42,18 +42,18 @@ const mockRootState: RootState = {
   },
   triage: {
     sessions: [
-      { id: 'session-1', patientId: 'patient-1', status: 'pending' },
-      { id: 'session-2', patientId: 'patient-2', status: 'active' },
+      { id: 'session-1', patientId: 'patient-1', status: 'active', originLat: 0, originLng: 0, priority: 'standard' },
+      { id: 'session-2', patientId: 'patient-2', status: 'en_route', originLat: 1, originLng: 1, priority: 'urgent' },
     ],
-    activeSession: { id: 'session-1', patientId: 'patient-1', status: 'pending' },
+    activeSession: { id: 'session-1', patientId: 'patient-1', status: 'active', originLat: 0, originLng: 0, priority: 'standard' },
     loading: false,
     error: null,
   },
   session: {
     sessions: [
-      { id: 'emerg-1', patientId: 'patient-1', status: 'active' },
+      { id: 'emerg-1', patientId: 'patient-1', status: 'active', originLat: 0, originLng: 0, priority: 'standard' },
     ],
-    activeSession: { id: 'emerg-1', patientId: 'patient-1', status: 'active' },
+    activeSession: { id: 'emerg-1', patientId: 'patient-1', status: 'active', originLat: 0, originLng: 0, priority: 'standard' },
     loading: false,
     error: null,
   },

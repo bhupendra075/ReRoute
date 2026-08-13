@@ -1,13 +1,12 @@
 // Minimal mock of leaflet APIs used in MapView for tests
 class IconDefault {
   // placeholder for prototype property used by MapView
+  _getIconUrl: string | undefined = undefined
   constructor() {}
-  static mergeOptions(_opts: any) {
+  static mergeOptions(_opts: unknown) {
     // noop
   }
 }
-
-IconDefault.prototype._getIconUrl = undefined
 
 export const Icon = { Default: IconDefault }
 
