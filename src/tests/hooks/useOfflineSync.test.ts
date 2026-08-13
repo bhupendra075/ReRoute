@@ -76,6 +76,8 @@ describe('useOfflineSync', () => {
 
       expect(result.current.queue).toHaveLength(1)
       const queueItem = result.current.queue[0]
+      expect(queueItem).toBeDefined()
+      if (!queueItem) return
       expect(queueItem).toMatchObject({
         table: 'test',
         operation: 'insert',
@@ -94,7 +96,10 @@ describe('useOfflineSync', () => {
       })
 
       expect(mockLocalStorage.setItem).toHaveBeenCalled()
-      const stored = JSON.parse(mockLocalStorage.setItem.mock.calls[0][1])
+      const call = mockLocalStorage.setItem.mock.calls[0]
+      expect(call).toBeDefined()
+      if (!call) return
+      const stored = JSON.parse(call[1])
       expect(stored).toHaveLength(1)
     })
   })

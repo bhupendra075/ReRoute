@@ -25,7 +25,7 @@ const mockTriageSessions: TriageSession[] = [
 ]
 
 const mockEmergencySessions: EmergencySession[] = [
-  { id: 'emerg-1', patientId: 'patient-1', status: 'active' },
+  { id: 'emerg-1', patientId: 'patient-1', status: 'active', originLat: 0, originLng: 0, priority: 'standard' },
 ]
 
 function createTestStore(preloadedState?: Partial<RootState>) {
@@ -59,10 +59,8 @@ function renderHookWithStore<T>(hook: () => T, store = createTestStore()) {
 }
 
 describe('shallowEqual hooks', () => {
-  let store: ReturnType<typeof createTestStore>
-
   beforeEach(() => {
-    store = createTestStore()
+    createTestStore()
   })
   describe('useHospitals', () => {
     it('returns hospitals array', () => {
@@ -173,7 +171,7 @@ describe('shallowEqual hooks', () => {
   describe('useAppSelector with shallowEqual', () => {
     it('prevents re-render when object contents are shallow equal', () => {
       const selector = jest.fn((state: RootState) => state.hospitals.hospitals)
-      const { result, rerender, store: testStore } = renderHookWithStore(() => useAppSelector(selector, (a, b) => a === b || (Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((v, i) => v === b[i]))))
+      const { result, rerender } = renderHookWithStore(() => useAppSelector(selector, (a, b) => a === b || (Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((v, i) => v === b[i]))))
 
       const firstResult = result.current
       rerender()
