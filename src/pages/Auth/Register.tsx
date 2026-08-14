@@ -20,7 +20,7 @@ export default function Register() {
 
     try {
       await signUp(email, password, fullName)
-      navigate('/auth/setup')
+      navigate(`/auth/setup?fullName=${fullName}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed')
       setLoading(false)

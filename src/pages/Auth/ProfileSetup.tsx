@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSupabase } from '@/hooks/useSupabase'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
@@ -7,13 +8,28 @@ import { FormSection } from '@/components/forms/FormSection'
 
 export default function ProfileSetup() {
   const navigate = useNavigate()
+  const { from } = useSupabase()
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    // Profile setup logic — would save to Supabase health_profiles table
-    setLoading(false)
+
+    const formData = new FormData(e.target as HTMLFormElement)
+    const profile = {
+      user_id: '',
+      blood_type: formData.get('blood-type') as string,
+      allergies: formData.get('allergies') as string | null,
+      conditions: formData.get('conditions') as string | null,
+      medications: formData.get('medications') as string | null,
+      emergency_contact_name: formData.get('emergency-contact-name') as string | null,
+      emergency_contact_phone: formData.get('emergency-contact-phone') as string | null,
+      emergency_contact_relationship: formData.get('emergency-contact-relationship') as string | null,
+    }
+
+    const { error } = await from('health_profiles').insert(profile)
+    if (error) throw error
+
     navigate('/dashboard/mobile')
   }
 
