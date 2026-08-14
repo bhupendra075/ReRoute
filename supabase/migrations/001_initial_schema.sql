@@ -1,9 +1,9 @@
-enable extension "uuid-ossp";
-enable extension "pgcrypto";
-enable extension "btree_gist";
+create extension if not exists "uuid-ossp";
+create extension if not exists "pgcrypto";
+create extension if not exists "btree_gist";
 
 create table public.users (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   auth_id uuid unique not null references auth.users(id) on delete cascade,
   email text unique not null,
   full_name text,
@@ -13,7 +13,7 @@ create table public.users (
 );
 
 create table public.health_profiles (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   user_id uuid unique not null references public.users(id) on delete cascade,
   encrypted_phi text not null,
   encrypted_emergency_contacts text not null,
@@ -23,7 +23,7 @@ create table public.health_profiles (
 );
 
 create table public.hospitals (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   name text not null,
   latitude double precision not null,
   longitude double precision not null,
@@ -37,7 +37,7 @@ create table public.hospitals (
 );
 
 create table public.insurance_tpas (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   name text not null,
   code text unique not null,
   network_hospitals uuid[] default '{}',
@@ -46,7 +46,7 @@ create table public.insurance_tpas (
 );
 
 create table public.emergency_sessions (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   patient_id uuid not null references public.users(id),
   session_token text unique not null default gen_random_uuid(),
   status text not null default 'active' check (status in ('active','en_route','arrived','completed','cancelled')),
@@ -61,7 +61,7 @@ create table public.emergency_sessions (
 );
 
 create table public.qr_logs (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   patient_id uuid not null references public.users(id),
   nonce text not null,
   payload_hash text not null,
@@ -73,7 +73,7 @@ create table public.qr_logs (
 );
 
 create table public.public_keys (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   kid text unique not null,
   public_key_pem text not null,
   algorithm text not null default 'ECDSA_P256',
