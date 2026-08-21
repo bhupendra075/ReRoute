@@ -5,6 +5,7 @@ import { classNames } from '@/utils/helpers'
 
 interface TriageCardProps {
   session: EmergencySession
+  recommendedHospitals?: { hospitalId: string; name: string; etaMinutes: number }[]
   onClick?: () => void
 }
 
@@ -14,7 +15,7 @@ const priorityStyles: Record<string, string> = {
   critical: 'border-l-4 border-l-red-500',
 }
 
-export function TriageCard({ session, onClick }: TriageCardProps) {
+export function TriageCard({ session, recommendedHospitals, onClick }: TriageCardProps) {
   return (
     <Card
       className={classNames('cursor-pointer hover:shadow-md transition-shadow', priorityStyles[session.priority] ?? '')}
@@ -40,6 +41,16 @@ export function TriageCard({ session, onClick }: TriageCardProps) {
             <dt className="text-gray-500">Patient</dt>
             <dd className="font-medium">{session.patientId.slice(0, 8)}…</dd>
           </div>
+          {recommendedHospitals && recommendedHospitals.length > 0 && (
+            <div className="mt-2 pt-2 border-t text-xs text-gray-600">
+              <span className="font-medium">Recommended:</span>{' '}
+              {recommendedHospitals.map((h) => (
+                <span key={h.hospitalId} className="inline-block ml-1 px-1.5 py-0.5 rounded bg-green-50 text-green-800">
+                  {h.name} ({h.etaMinutes}m)
+                </span>
+              ))}
+            </div>
+          )}
           <div className="flex justify-between">
             <dt className="text-gray-500">Updated</dt>
             <dd className="text-gray-600">{formatRelative(session.created_at ?? new Date())}</dd>
