@@ -1,12 +1,19 @@
 import type { EmergencySession } from '@/types'
 import { TriageCard } from './TriageCard'
 
+interface RecommendedHospital {
+  hospitalId: string
+  name: string
+  etaMinutes: number
+}
+
 interface TriageQueueProps {
   sessions: EmergencySession[]
+  recommendedHospitals?: Record<string, RecommendedHospital[]> // sessionId -> hospitals
   onSessionClick?: (session: EmergencySession) => void
 }
 
-export function TriageQueue({ sessions, onSessionClick }: TriageQueueProps) {
+export function TriageQueue({ sessions, recommendedHospitals, onSessionClick }: TriageQueueProps) {
   if (sessions.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -22,6 +29,7 @@ export function TriageQueue({ sessions, onSessionClick }: TriageQueueProps) {
         <TriageCard
           key={session.id}
           session={session}
+          recommendedHospitals={recommendedHospitals?.[session.id ?? '']}
           onClick={() => onSessionClick?.(session)}
         />
       ))}
