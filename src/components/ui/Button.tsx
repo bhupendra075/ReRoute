@@ -6,7 +6,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'neumorphism'
   size?: 'sm' | 'md' | 'lg'
   loading?: boolean
   asChild?: boolean
@@ -23,22 +23,34 @@ export function Button({
   ...props
 }: ButtonProps) {
   const Comp = asChild ? 'span' : 'button'
+
+  // Explicitly read variant to satisfy TypeScript
+  const _variant: string = variant
+
   return (
     <Comp
       className={cn(
-        'inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
+        'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
         {
-          'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500': variant === 'primary',
-          'bg-gray-100 text-gray-900 hover:bg-gray-200 focus-visible:ring-gray-500': variant === 'secondary',
-          'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus-visible:ring-gray-500': variant === 'outline',
-          'bg-red-100 text-red-700 hover:bg-red-200 focus-visible:ring-red-500': variant === 'danger',
-          'bg-transparent text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500': variant === 'ghost',
+          'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500': _variant === 'primary',
+          'bg-gray-100 text-gray-900 hover:bg-gray-200 focus-visible:ring-gray-500': _variant === 'secondary',
+          'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus-visible:ring-gray-500': _variant === 'outline',
+          'bg-red-100 text-red-700 hover:bg-red-200 focus-visible:ring-red-500': _variant === 'danger',
+          'bg-transparent text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500': _variant === 'ghost',
+          'neumorphism': _variant === 'neumorphism',
         },
         {
-          'px-3 py-1.5 text-sm': size === 'sm',
-          'px-4 py-2 text-sm': size === 'md',
-          'px-6 py-3 text-base': size === 'lg',
+          'dark:neumorphism': _variant === 'neumorphism',
+          'dark:bg-gray-900': _variant === 'neumorphism',
+          'dark:text-gray-100': _variant === 'neumorphism',
         },
+        {
+          'dark:hover:bg-gray-800': _variant === 'secondary',
+          'dark:hover:bg-gray-700': _variant === 'primary',
+        },
+        size === 'sm' && 'px-3 py-1.5 text-sm',
+        size === 'md' && 'px-4 py-2 text-sm',
+        size === 'lg' && 'px-6 py-3 text-base',
         className,
       )}
       disabled={disabled || loading}

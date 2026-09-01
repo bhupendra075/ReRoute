@@ -67,7 +67,14 @@ export function MapView({
                 hospital.isActive ? '#22c55e' : '#ef4444'
               };width:24px;height:24px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:bold;">${
                 hospital.specializations[0]?.[0] ?? 'H'
-              }</div>`,
+              }</div>` +
+                (hospital.acceptsInsurance && hospital.acceptsInsurance.length > 0
+                  ? `<span style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);display:flex;gap-1;flex-wrap:wrap;">
+                      ${hospital.acceptsInsurance.map((code) => (
+                        `<span key="${code}" className="inline-block px-2 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-700">${code}</span>`
+                      ))}
+                    </span>`
+                  : ''),
               iconSize: [24, 24],
               iconAnchor: [12, 12],
               popupAnchor: [0, -12],

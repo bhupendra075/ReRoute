@@ -6,7 +6,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'bordered' | 'elevated'
+  variant?: 'default' | 'bordered' | 'elevated' | 'neumorphism'
 }
 
 export function Card({
@@ -18,11 +18,18 @@ export function Card({
   return (
     <div
       className={cn(
-        'rounded-lg bg-white',
+        'rounded-lg',
         {
+          'bg-white': variant !== 'neumorphism',
+          'bg-gray-800': variant === 'neumorphism',
           'border border-gray-200': variant === 'bordered',
-          'shadow-sm': variant === 'elevated',
+          'shadow-sm': variant === 'elevated' || variant === 'neumorphism',
         },
+        {
+          'dark:bg-gray-900': variant === 'neumorphism',
+          'dark:border-gray-600': variant === 'neumorphism',
+        },
+        variant === 'neumorphism' && 'neumorphism',
         className,
       )}
       {...props}

@@ -48,6 +48,15 @@ const mockSessions: EmergencySession[] = [
   },
 ]
 
+const mockRecommendedHospitals: Record<string, { hospitalId: string; name: string; etaMinutes: number }[]> = {
+  'sess-001': [
+    { hospitalId: 'demo-1', name: 'Mumbai General Hospital', etaMinutes: 12 },
+  ],
+  'sess-002': [
+    { hospitalId: 'demo-1', name: 'Mumbai General Hospital', etaMinutes: 8 },
+  ],
+}
+
 export default function CommandCenter() {
   const firstHospital = mockHospitals[0]!
   const dynamicCenter: [number, number] = mockHospitals.length > 0
@@ -65,6 +74,19 @@ export default function CommandCenter() {
             center={dynamicCenter}
             zoom={mockHospitals.length > 0 ? 13 : 12}
             height="h-[400px]"
+            routes={mockHospitals.map((hospital) => ({
+              hospital,
+              path: {
+                coordinates: [
+                  [hospital.longitude, hospital.latitude],
+                  [hospital.longitude + 0.003, hospital.latitude + 0.003],
+                ],
+                etaSeconds: 720,
+                distanceMeters: 800,
+                hospitalName: hospital.name,
+                color: '#10b981',
+              },
+            }))}
           />
         </CardContent>
       </Card>
@@ -79,7 +101,10 @@ export default function CommandCenter() {
       <Card>
         <CardHeader><CardTitle>Triage Queue</CardTitle></CardHeader>
         <CardContent>
-          <TriageQueue sessions={mockSessions} />
+          <TriageQueue
+            sessions={mockSessions}
+            recommendedHospitals={mockRecommendedHospitals}
+          />
         </CardContent>
       </Card>
     </div>
