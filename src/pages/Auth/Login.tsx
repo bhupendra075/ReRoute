@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '@/hooks/useAuth'
+import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 
 export default function Login() {
-  const { signIn } = useAuth()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -18,7 +17,8 @@ export default function Login() {
     setLoading(true)
 
     try {
-      await signIn(email, password)
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error
       navigate('/')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
@@ -27,19 +27,58 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center">
-      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4" noValidate>
-        <h1 className="text-2xl font-bold text-center">Sign In</h1>
-        {error && <p className="text-sm text-red-600 text-center" role="alert">{error}</p>}
-        <Input label="Email" id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
-        <Input label="Password" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" />
-        <Button type="submit" variant="primary" className="w-full" loading={loading}>
+    <form
+      className="w-full max-w-md space-y-8 bg-gray-50 dark:bg-gray-900 py-12 px-4 neumorphism"
+      onSubmit={handleSubmit}
+    >
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           Sign In
-        </Button>
-        <p className="text-center text-sm text-gray-600">
-          Don't have an account? <a href="/auth/register" className="text-red-600 hover:underline">Register</a>
-        </p>
-      </form>
-    </div>
+        </h1>
+        {error && (
+          <p className="text-sm text-red-600 text-center" role="alert">
+            {error}
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-4">
+        <Input
+          label="Email"
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoComplete="email"
+          className="w-full"
+        />
+        <Input
+          label="Password"
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          autoComplete="current-password"
+          className="w-full"
+        />
+      </div>
+
+      <Button
+        type="submit"
+        variant="primary"
+        className="w-full"
+        loading={loading}
+      >
+        Sign In
+      </Button>
+
+      <p className="text-center text-sm text-gray-600 dark:text-gray-300 mt-6">
+        Don't have an account? <a href="/auth/register" className="text-red-600 hover:underline">
+          Register
+        </a>
+      </p>
+    </form>
   )
 }

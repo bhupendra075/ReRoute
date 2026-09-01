@@ -12,28 +12,31 @@ import Trigger from './pages/Emergency/Trigger'
 import Passport from './pages/Emergency/Passport'
 import CommandCenter from './pages/ERCommandCenter/CommandCenter'
 import Settings from './pages/Settings'
+import { ThemeProvider } from './context/ThemeContext'
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AppLayout />}>
-            <Route index element={<Index />} />
-            <Route path="auth/login" element={<Login />} />
-            <Route path="auth/register" element={<Register />} />
-            <Route path="auth/setup" element={<ProfileSetup />} />
-            <Route path="dashboard/mobile" element={<MobileDashboard />} />
-            <Route path="dashboard/desktop" element={<DesktopDashboard />} />
-            <Route path="emergency/trigger" element={<Trigger />} />
-            <Route path="emergency/passport" element={<Passport />} />
-            <Route path="er/command-center" element={<CommandCenter />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <ThemeProvider>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<AppLayout />}>
+              <Route index element={<Index />} />
+              <Route path="auth/login" element={<Login />} />
+              <Route path="auth/register" element={<Register />} />
+              <Route path="auth/setup" element={<ProfileSetup />} />
+              <Route path="dashboard/mobile" element={<MobileDashboard />} />
+              <Route path="dashboard/desktop" element={<DesktopDashboard />} />
+              <Route path="emergency/trigger" element={<Trigger />} />
+              <Route path="emergency/passport" element={<Passport />} />
+              <Route path="er/command-center" element={<CommandCenter />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
   )
 }
 
