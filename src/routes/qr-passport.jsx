@@ -72,17 +72,6 @@ function QrPassport() {
             रक्तगट, अ‍ॅलर्जी आणि आपत्कालीन संपर्कासाठी क्यूआर कोड स्कॅन करा. अ‍ॅपची गरज नाही.
           </p>
         </section>
-
-        <section>
-          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            Instant summary — visible without scanning
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <PassportPill variant="critical">Allergic to Penicillin</PassportPill>
-            <PassportPill variant="solid">Blood Group: {patient.bloodGroup}</PassportPill>
-            <PassportPill variant="muted">Asthma Patient</PassportPill>
-          </div>
-        </section>
       </div>
     </AppShell>
   );
