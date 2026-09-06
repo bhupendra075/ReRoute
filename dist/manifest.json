@@ -1,0 +1,16 @@
+{
+  "name": "reroute — Emergency Triage",
+  "short_name": "reroute",
+  "description": "Emergency triage and hospital routing system",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ef4444",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

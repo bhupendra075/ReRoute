@@ -1,20 +1,14 @@
 node_modules
-bun.lock
-dist
 .env
 .env.local
 .env.*.local
-*.log
-.DS_Store
-coverage
 .vscode
 .idea
 .prettierrc
 .poolside 
-2026-08-13-204835-hi.txt
-Feild project.md
-PROJECT_PLAN.md
-SKILL.md
-USER_ACTION_CHECKLIST.md
-UI_PLAN.md
-PROGRESS_SUMMARY.md 
+jest.config.js 
+eslint.config.js
+package-lock.json
+tailwind.config.js
+vite.config.js
+package.json
